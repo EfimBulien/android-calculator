@@ -1,5 +1,6 @@
 package com.example.cbo;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +11,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class MainActivity extends AppCompatActivity {
-
     private EditText editTextResult;
     private boolean lastNumeric;
     private boolean stateError;
@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editTextResult = findViewById(R.id.editTextResult);
-
-        // Clear button action
         findViewById(R.id.buttonClear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Number buttons
         int[] numberButtons = {
                 R.id.button0, R.id.button1, R.id.button2, R.id.button3,
                 R.id.button4, R.id.button5, R.id.button6, R.id.button7,
@@ -50,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // Operation buttons
         int[] operationButtons = {
                 R.id.buttonPlus, R.id.buttonMinus, R.id.buttonMultiply,
                 R.id.buttonDivide, R.id.buttonSqrt, R.id.buttonSquare, R.id.buttonPercent
@@ -65,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // Dot button
         findViewById(R.id.buttonDot).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Equal button
         findViewById(R.id.buttonEqual).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,15 +103,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void equalClicked() {
         if (lastNumeric && !stateError) {
             String txt = editTextResult.getText().toString();
             try {
                 double result = evaluate(txt);
-                editTextResult.setText(BigDecimal.valueOf(result).setScale(2, RoundingMode.HALF_UP).toString());
+                editTextResult.setText(BigDecimal.valueOf(result).setScale(2,
+                        RoundingMode.HALF_UP).toString());
                 lastDot = false;
             } catch (ArithmeticException ex) {
-                editTextResult.setText("Error");
+                editTextResult.setText("Ошибка!");
                 stateError = true;
                 lastNumeric = false;
             }
