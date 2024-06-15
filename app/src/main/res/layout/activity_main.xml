@@ -10,8 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_margin="16dp"
+        android:autofillHints=""
         android:hint="0"
         android:gravity="end"
+        android:importantForAutofill="no"
         android:textSize="24sp"
         android:inputType="none" />
     <GridLayout

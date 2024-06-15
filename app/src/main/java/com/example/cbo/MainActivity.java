@@ -22,14 +22,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editTextResult = findViewById(R.id.editTextResult);
-        findViewById(R.id.buttonClear).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextResult.getText().clear();
-                lastNumeric = false;
-                stateError = false;
-                lastDot = false;
-            }
+        findViewById(R.id.buttonClear).setOnClickListener(v -> {
+            editTextResult.getText().clear();
+            lastNumeric = false;
+            stateError = false;
+            lastDot = false;
         });
 
         int[] numberButtons = {
@@ -38,42 +35,18 @@ public class MainActivity extends AppCompatActivity {
                 R.id.button8, R.id.button9
         };
 
-        for (int id : numberButtons) {
-            findViewById(id).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    numberClicked(v);
-                }
-            });
-        }
+        for (int id : numberButtons) findViewById(id).setOnClickListener(this::numberClicked);
 
         int[] operationButtons = {
                 R.id.buttonPlus, R.id.buttonMinus, R.id.buttonMultiply,
                 R.id.buttonDivide, R.id.buttonSqrt, R.id.buttonSquare, R.id.buttonPercent
         };
 
-        for (int id : operationButtons) {
-            findViewById(id).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    operationClicked(v);
-                }
-            });
-        }
+        for (int id : operationButtons) findViewById(id).setOnClickListener(this::operationClicked);
 
-        findViewById(R.id.buttonDot).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dotClicked();
-            }
-        });
+        findViewById(R.id.buttonDot).setOnClickListener(v -> dotClicked());
 
-        findViewById(R.id.buttonEqual).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                equalClicked();
-            }
-        });
+        findViewById(R.id.buttonEqual).setOnClickListener(v -> equalClicked());
     }
 
     private void numberClicked(View view) {
@@ -132,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             return Double.parseDouble(parts[0]) * Double.parseDouble(parts[1]);
         } else if (expression.contains("/")) {
             String[] parts = expression.split("/");
-            if (parts[1].equals("0")) throw new ArithmeticException("Division by zero");
+            if (parts[1].equals("0")) throw new ArithmeticException("Деление на ноль!");
             return Double.parseDouble(parts[0]) / Double.parseDouble(parts[1]);
         } else if (expression.contains("√")) {
             String[] parts = expression.split("√");
@@ -143,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
         } else if (expression.contains("%")) {
             String[] parts = expression.split("%");
             return Double.parseDouble(parts[0]) * Double.parseDouble(parts[1]) / 100;
-        } else {
-            return Double.parseDouble(expression);
-        }
+        } else return Double.parseDouble(expression);
     }
 }
